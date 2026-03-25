@@ -8,18 +8,24 @@ export interface PlanRow {
   startNode: string;
   locationEnd: string;
   demandForecast: number | null;
-  projectedSales: number;
-  lostSales: number;
-  leadTime: string;
   plannedReplenishmentQty: number;
+  editedQty: number;
+  leadTime: string;
+  dispatchDate: string;
+  deliveryDate: string;
   transportMode: string;
   variableCost: number;
-  sourceName: string;
-  destinationName: string;
-  division: string;
+  sourceType: string;
+  reason: string;
   status: RowStatus;
   useCaseId?: string;
   useCaseLabel?: string;
+  // Legacy fields kept for compatibility
+  projectedSales: number;
+  lostSales: number;
+  sourceName: string;
+  destinationName: string;
+  division: string;
   manuallyCreated: boolean;
 }
 

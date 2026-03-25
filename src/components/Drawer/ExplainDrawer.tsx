@@ -93,7 +93,7 @@ export default function ExplainDrawer() {
 
   const fallbackMessage = isRM
     ? "Standard procurement — no special conditions. This PO was generated through the standard planning cycle."
-    : "No special conditions. This STO was generated through the standard planning cycle with no demand sensing, promo, or network rebalancing triggers.";
+    : "Standard replenishment — no node balancing required. This STO was generated through standard planning with sufficient stock at the primary DC.";
 
   const fallbackEmoji = isRM ? "🏭" : "📦";
   const fallbackTitle = isRM ? "Standard Procurement" : "Standard Replenishment";
@@ -169,19 +169,31 @@ export default function ExplainDrawer() {
                   {!state.editMode && renderTabContent()}
                 </div>
 
-                {/* Planner Actions (RM only) */}
-                {isRM && !state.editMode && (
+                {/* Planner Actions */}
+                {!state.editMode && (
                   <PlannerActions
                     row={row as Record<string, unknown>}
-                    onApprove={() =>
-                      dispatch({ type: "RM_OPEN_APPROVE_MODAL", rowId: String(row[am.config.idField]) })
-                    }
-                    onReject={() =>
-                      dispatch({ type: "RM_OPEN_REJECT_MODAL", rowId: String(row[am.config.idField]) })
-                    }
-                    onEdit={() =>
-                      dispatch({ type: "RM_START_EDIT", rowId: String(row[am.config.idField]) })
-                    }
+                    statusField={am.config.statusField}
+                    onApprove={() => {
+                      if (isRM) {
+                        dispatch({ type: "RM_OPEN_APPROVE_MODAL", rowId: String(row[am.config.idField]) });
+                      } else {
+                        // For replenishment: direct approve
+                        dispatch({ type: "UPDATE_ROW_STATUS", ids: [String(row[am.config.idField])], status: "approved" } as never);
+                      }
+                    }}
+                    onReject={() => {
+                      if (isRM) {
+                        dispatch({ type: "RM_OPEN_REJECT_MODAL", rowId: String(row[am.config.idField]) });
+                      } else {
+                        dispatch({ type: "UPDATE_ROW_STATUS", ids: [String(row[am.config.idField])], status: "rejected" } as never);
+                      }
+                    }}
+                    onEdit={() => {
+                      if (isRM) {
+                        dispatch({ type: "RM_START_EDIT", rowId: String(row[am.config.idField]) });
+                      }
+                    }}
                   />
                 )}
               </>

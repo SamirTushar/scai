@@ -9,6 +9,7 @@ interface Props {
   statusField: string;
   isSelected: boolean;
   hasUseCase: boolean;
+  useCaseLabel?: string;
   onToggle: () => void;
   onOpenDrawer: () => void;
 }
@@ -44,6 +45,7 @@ export default function TableRow({
   statusField,
   isSelected,
   hasUseCase,
+  useCaseLabel,
   onToggle,
   onOpenDrawer,
 }: Props) {
@@ -70,7 +72,7 @@ export default function TableRow({
           className={`p-1.5 rounded-lg hover:bg-gray-100 transition-colors ${
             hasUseCase ? "text-accent" : "text-text-secondary"
           }`}
-          title={hasUseCase ? "View detailed insights" : "Standard — no special conditions"}
+          title={hasUseCase ? (useCaseLabel || "View detailed insights") : "Standard replenishment — no node balancing"}
         >
           <Info size={18} />
         </button>

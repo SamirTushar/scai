@@ -33,7 +33,7 @@ export interface ModuleConfig {
 }
 
 export const replenishmentConfig: ModuleConfig = {
-  breadcrumb: { period: "DEC 2025", title: "Planning Dashboard" },
+  breadcrumb: { period: "MAR 2026", title: "Planning Dashboard" },
   statusLabel: "Planned & Executed",
   idField: "stoId",
   statusField: "status",
@@ -47,7 +47,7 @@ export const replenishmentConfig: ModuleConfig = {
       items: [
         { label: "SKU Count", value: 42, color: "text-accent" },
         { label: "Destination Count", value: 12, color: "text-blue-600" },
-        { label: "Source Count", value: 4, color: "text-blue-600" },
+        { label: "Source Count", value: 5, color: "text-blue-600" },
       ],
     },
     {
@@ -56,9 +56,9 @@ export const replenishmentConfig: ModuleConfig = {
       iconBg: "bg-blue-50",
       iconColor: "text-blue-600",
       topBorderColor: "border-blue-400",
-      heroValue: 847,
+      heroValue: 1247,
       heroColor: "text-blue-600",
-      items: [{ label: "SKU Orders", value: 847 }],
+      items: [{ label: "SKU Orders", value: 1247 }],
     },
     {
       title: "Approval Status",
@@ -67,7 +67,7 @@ export const replenishmentConfig: ModuleConfig = {
       iconColor: "text-amber-600",
       topBorderColor: "border-amber-400",
       items: [
-        { label: "Pending", value: 847, color: "text-amber-600" },
+        { label: "Pending", value: 1247, color: "text-amber-600" },
         { label: "Approved", value: 0, color: "text-emerald-600" },
         { label: "Rejected", value: 0, color: "text-red-500" },
       ],
@@ -78,7 +78,7 @@ export const replenishmentConfig: ModuleConfig = {
       iconBg: "bg-emerald-50",
       iconColor: "text-emerald-600",
       topBorderColor: "border-emerald-400",
-      heroValue: "91.34%",
+      heroValue: "91.4%",
       heroColor: "text-emerald-600",
       items: [
         { label: "Demand Value", value: 0 },
@@ -91,27 +91,30 @@ export const replenishmentConfig: ModuleConfig = {
       iconBg: "bg-red-50",
       iconColor: "text-red-500",
       topBorderColor: "border-red-400",
-      heroValue: "3.21%",
+      heroValue: "3.8%",
       heroColor: "text-red-500",
       items: [
-        { label: "Volume", value: "18,420" },
+        { label: "Volume", value: "2,140" },
         { label: "Value", value: 0 },
       ],
     },
   ],
   tableColumns: [
-    { key: "stoId", label: "STO ID", width: "240px" },
-    { key: "productName", label: "Product Name", width: "220px" },
-    { key: "skuCode", label: "SKU CODE", width: "110px" },
-    { key: "startNode", label: "Start Node", width: "130px" },
+    { key: "stoId", label: "STO ID", width: "150px" },
+    { key: "productName", label: "SKU", width: "210px" },
+    { key: "skuCode", label: "SKU Code", width: "100px" },
+    { key: "startNode", label: "Start Node (DC)", width: "130px" },
     { key: "locationEnd", label: "Location End", width: "130px" },
-    { key: "manuallyCreated", label: "Manually Created", width: "130px", format: "boolean" },
-    { key: "demandForecast", label: "Demand Forecast", width: "140px", format: "number", align: "right" },
-    { key: "projectedSales", label: "Projected Sales", width: "130px", format: "number", align: "right" },
-    { key: "plannedReplenishmentQty", label: "Planned Qty", width: "110px", format: "number", align: "right" },
-    { key: "variableCost", label: "Variable Cost", width: "120px", format: "currency", align: "right" },
-    { key: "leadTime", label: "Lead Time", width: "100px" },
-    { key: "division", label: "Division", width: "110px" },
+    { key: "demandForecast", label: "Demand Forecast", width: "130px", format: "number", align: "right" },
+    { key: "plannedReplenishmentQty", label: "Planned Qty", width: "100px", format: "number", align: "right" },
+    { key: "editedQty", label: "Edited Qty", width: "95px", format: "number", align: "right" },
+    { key: "leadTime", label: "Lead Time", width: "90px" },
+    { key: "dispatchDate", label: "Dispatch Date", width: "110px" },
+    { key: "deliveryDate", label: "Delivery Date", width: "110px" },
+    { key: "transportMode", label: "Transport Mode", width: "120px" },
+    { key: "variableCost", label: "Variable Cost", width: "110px", format: "currency", align: "right" },
+    { key: "sourceType", label: "Source Type", width: "140px" },
+    { key: "reason", label: "Reason", width: "250px" },
   ],
 };
 

@@ -56,6 +56,7 @@ export default function DataTable() {
                   statusField={config.statusField}
                   isSelected={am.selectedRowIds.has(String(row[idField]))}
                   hasUseCase={am.module === "replenishment" ? !!(row as Record<string, unknown>).useCaseId : !!(row as Record<string, unknown>).use_case}
+                  useCaseLabel={String((row as Record<string, unknown>).useCaseLabel || "")}
                   onToggle={() => dispatch({ type: am.actions.toggleRow, id: String(row[idField]) } as never)}
                   onOpenDrawer={() => dispatch({ type: am.actions.openDrawer, rowId: String(row[idField]) } as never)}
                 />

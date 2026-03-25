@@ -2,6 +2,7 @@ import { Check, Pencil, X } from "lucide-react";
 
 interface Props {
   row: Record<string, unknown>;
+  statusField?: string;
   onApprove: () => void;
   onReject: () => void;
   onEdit: () => void;
@@ -13,8 +14,8 @@ const statusBadge: Record<string, { label: string; color: string; bg: string }> 
   rejected: { label: "🔴 Rejected", color: "text-red-700", bg: "bg-red-50 border-red-200" },
 };
 
-export default function PlannerActions({ row, onApprove, onReject, onEdit }: Props) {
-  const status = String(row.approval_status || "pending");
+export default function PlannerActions({ row, statusField = "approval_status", onApprove, onReject, onEdit }: Props) {
+  const status = String(row[statusField] || "pending");
   const badge = statusBadge[status] || statusBadge.pending;
 
   return (
