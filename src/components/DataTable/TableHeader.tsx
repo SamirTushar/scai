@@ -27,7 +27,7 @@ export default function TableHeader({
   return (
     <thead>
       <tr className="bg-accent-subtle border-b border-accent-medium/30">
-        <th className="w-12 px-4 py-3">
+        <th className="w-12 px-4 py-3.5">
           <input
             type="checkbox"
             checked={allSelected}
@@ -35,13 +35,13 @@ export default function TableHeader({
             className="w-4 h-4 rounded border-gray-300 accent-accent cursor-pointer"
           />
         </th>
-        <th className="w-12 px-3 py-3 text-[12px] font-semibold text-text-primary/60 uppercase tracking-wider text-left">
+        <th className="w-12 px-3 py-3.5 text-[12px] font-semibold text-text-primary/60 uppercase tracking-wider text-left">
           Info
         </th>
         {columns.map((col) => (
           <th
             key={col.key}
-            className={`px-4 py-3 text-[12px] font-semibold text-text-primary/60 uppercase tracking-wider cursor-pointer hover:bg-accent-light select-none whitespace-nowrap ${
+            className={`px-4 py-3.5 text-[12px] font-semibold text-text-primary/60 uppercase tracking-wider cursor-pointer hover:bg-accent-light select-none whitespace-nowrap ${
               col.align === "right" ? "text-right" : "text-left"
             }`}
             style={{ minWidth: col.width }}

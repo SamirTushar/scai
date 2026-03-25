@@ -7,7 +7,7 @@ interface Props {
 
 export default function TabInputs({ data }: Props) {
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       <h3 className="text-[15px] font-semibold text-text-primary">
         What the System Saw
       </h3>

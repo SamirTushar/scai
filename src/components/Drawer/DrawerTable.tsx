@@ -18,7 +18,7 @@ export default function DrawerTable({ columns, rows, highlightRow }: Props) {
             {columns.map((col) => (
               <th
                 key={col.key}
-                className="px-4 py-3 text-left text-[11px] font-bold text-text-primary/60 uppercase tracking-wider whitespace-nowrap border-b border-accent-medium/30"
+                className="px-4 py-3.5 text-left text-[11px] font-bold text-text-primary/60 uppercase tracking-wider whitespace-nowrap border-b border-accent-medium/30"
               >
                 {col.label}
               </th>
@@ -40,7 +40,7 @@ export default function DrawerTable({ columns, rows, highlightRow }: Props) {
                 }`}
               >
                 {columns.map((col) => (
-                  <td key={col.key} className="px-4 py-2.5 whitespace-nowrap text-text-primary">
+                  <td key={col.key} className="px-4 py-3 whitespace-nowrap text-text-primary">
                     {row[col.key] ?? "—"}
                   </td>
                 ))}

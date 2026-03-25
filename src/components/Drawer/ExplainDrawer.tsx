@@ -139,7 +139,7 @@ export default function ExplainDrawer() {
             </div>
 
             {/* SKU Badge Pills */}
-            <div className="px-8 py-4 border-b border-card-border bg-gray-50/50">
+            <div className="px-8 py-5 border-b border-card-border bg-gray-50/50">
               {renderBadgePills()}
             </div>
 
@@ -165,7 +165,7 @@ export default function ExplainDrawer() {
                 </div>
 
                 {/* Tab Content */}
-                <div className="flex-1 overflow-y-auto px-8 py-6">
+                <div className="flex-1 overflow-y-auto px-8 py-8">
                   {!state.editMode && renderTabContent()}
                 </div>
 

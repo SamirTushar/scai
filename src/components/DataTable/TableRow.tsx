@@ -58,7 +58,7 @@ export default function TableRow({
       } ${isSelected ? "bg-blue-50/40" : ""} ${status === "rejected" ? "bg-red-50/30" : ""}`}
       style={{ borderLeft: `4px solid ${statusBorderColor[status] || "#F59E0B"}` }}
     >
-      <td className="px-4 py-3">
+      <td className="px-4 py-3.5">
         <input
           type="checkbox"
           checked={isSelected}
@@ -84,7 +84,7 @@ export default function TableRow({
         return (
           <td
             key={col.key}
-            className={`px-4 py-3 whitespace-nowrap ${
+            className={`px-4 py-3.5 whitespace-nowrap ${
               col.align === "right" ? "text-right tabular-nums" : ""
             } ${isFirstCol ? "font-mono text-[13px]" : ""} ${
               status === "rejected" && col.key.includes("qty") ? "line-through text-red-400" : ""

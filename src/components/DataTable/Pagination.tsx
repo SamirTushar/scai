@@ -23,7 +23,7 @@ export default function Pagination({ totalPages }: Props) {
   };
 
   return (
-    <div className="flex items-center justify-between px-6 py-4 border-t border-table-border">
+    <div className="flex items-center justify-between px-6 py-5 border-t border-table-border">
       <div className="flex items-center gap-5">
         <div className="flex items-center gap-2 text-[13px] text-text-secondary">
           <span className="font-medium">SHOWING_ROWS</span>
