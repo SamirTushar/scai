@@ -7,7 +7,7 @@ export default function SummaryCards() {
   const cards = config.summaryCards;
 
   return (
-    <div className="grid grid-cols-5 gap-5 px-8 pt-6 pb-6">
+    <div className="grid grid-cols-5 gap-5 px-8 py-6">
       {cards.map((card: CardConfig) => (
         <div
           key={card.title}

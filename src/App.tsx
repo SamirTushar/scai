@@ -22,7 +22,9 @@ function DashboardContent() {
           <SummaryCards />
           {state.viewMode === "table" ? (
             <>
+              <div className="h-6" />
               <ActionBar />
+              <div className="h-4" />
               <DataTable />
             </>
           ) : (

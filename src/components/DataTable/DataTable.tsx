@@ -32,7 +32,7 @@ export default function DataTable() {
   const idField = config.idField;
 
   return (
-    <div className="px-8 pt-2 pb-8">
+    <div className="px-8 pb-8">
       <div className="bg-white rounded-xl border border-card-border overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-[14px]">
