@@ -58,7 +58,7 @@ export default function TableRow({
       } ${isSelected ? "bg-blue-50/40" : ""} ${status === "rejected" ? "bg-red-50/30" : ""}`}
       style={{ borderLeft: `4px solid ${statusBorderColor[status] || "#F59E0B"}` }}
     >
-      <td className="px-3 py-4 text-center align-middle">
+      <td className="px-3 py-5 text-center align-middle">
         <input
           type="checkbox"
           checked={isSelected}
@@ -66,7 +66,7 @@ export default function TableRow({
           className="w-3.5 h-3.5 rounded border-gray-300 accent-accent cursor-pointer"
         />
       </td>
-      <td className="px-2 py-4 text-center align-middle">
+      <td className="px-2 py-5 text-center align-middle">
         <button
           onClick={onOpenDrawer}
           className={`p-1 rounded-lg hover:bg-gray-100 transition-colors ${
@@ -84,7 +84,7 @@ export default function TableRow({
         return (
           <td
             key={col.key}
-            className={`px-3 py-4 whitespace-nowrap text-[13px] align-middle ${
+            className={`px-3 py-5 whitespace-nowrap text-[13px] align-middle ${
               col.align === "right" ? "text-right tabular-nums" : ""
             } ${isFirstCol ? "font-mono text-[12px]" : ""} ${
               status === "rejected" && col.key.includes("qty") ? "line-through text-red-400" : ""

@@ -30,7 +30,7 @@ export default function ActionBar() {
   };
 
   return (
-    <div className="flex items-center justify-between px-8 py-4 mt-2">
+    <div className="flex items-center justify-between px-8 py-4">
       <div className="flex items-center gap-3">
         <button className="flex items-center gap-2 px-4 py-2 text-[12px] text-text-secondary border border-card-border rounded-lg hover:bg-gray-50 font-medium">
           <Columns3 size={14} />

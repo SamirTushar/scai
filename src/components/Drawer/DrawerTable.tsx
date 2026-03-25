@@ -11,7 +11,7 @@ interface Props {
 
 export default function DrawerTable({ columns, rows, highlightRow }: Props) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-card-border shadow-sm mb-2">
+    <div className="overflow-x-auto rounded-lg border border-card-border shadow-sm mb-6">
       <table className="w-full text-[12px]">
         <thead>
           <tr className="bg-accent-subtle">
