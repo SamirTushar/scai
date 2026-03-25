@@ -1,20 +1,19 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useAppContext } from "../../context/AppContext";
+import { useActiveModule } from "../../hooks/useActiveModule";
 
 interface Props {
-  totalRows: number;
   totalPages: number;
-  start: number;
-  pageSize: number;
 }
 
 export default function Pagination({ totalPages }: Props) {
-  const { state, dispatch } = useAppContext();
+  const { dispatch } = useAppContext();
+  const am = useActiveModule();
 
   const pageNumbers = () => {
     const pages: (number | string)[] = [];
     for (let i = 0; i < totalPages; i++) {
-      if (i === 0 || i === totalPages - 1 || Math.abs(i - state.currentPage) <= 1) {
+      if (i === 0 || i === totalPages - 1 || Math.abs(i - am.currentPage) <= 1) {
         pages.push(i);
       } else if (pages[pages.length - 1] !== "...") {
         pages.push("...");
@@ -29,9 +28,9 @@ export default function Pagination({ totalPages }: Props) {
         <div className="flex items-center gap-2 text-[13px] text-text-secondary">
           <span className="font-medium">SHOWING_ROWS</span>
           <select
-            value={state.pageSize}
+            value={am.pageSize}
             onChange={(e) =>
-              dispatch({ type: "SET_PAGE_SIZE", size: Number(e.target.value) })
+              dispatch({ type: am.actions.setPageSize, size: Number(e.target.value) } as never)
             }
             className="border border-card-border rounded-lg px-3 py-1.5 text-[13px] bg-white cursor-pointer"
           >
@@ -57,8 +56,8 @@ export default function Pagination({ totalPages }: Props) {
       </div>
       <div className="flex items-center gap-1.5">
         <button
-          onClick={() => dispatch({ type: "SET_PAGE", page: state.currentPage - 1 })}
-          disabled={state.currentPage === 0}
+          onClick={() => dispatch({ type: am.actions.setPage, page: am.currentPage - 1 } as never)}
+          disabled={am.currentPage === 0}
           className="p-2 rounded-lg hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <ChevronLeft size={18} />
@@ -71,9 +70,9 @@ export default function Pagination({ totalPages }: Props) {
           ) : (
             <button
               key={p}
-              onClick={() => dispatch({ type: "SET_PAGE", page: p as number })}
+              onClick={() => dispatch({ type: am.actions.setPage, page: p as number } as never)}
               className={`min-w-[32px] h-8 rounded-lg text-[13px] font-medium ${
-                state.currentPage === p
+                am.currentPage === p
                   ? "bg-text-primary text-white"
                   : "text-text-secondary hover:bg-gray-100"
               }`}
@@ -83,8 +82,8 @@ export default function Pagination({ totalPages }: Props) {
           )
         )}
         <button
-          onClick={() => dispatch({ type: "SET_PAGE", page: state.currentPage + 1 })}
-          disabled={state.currentPage >= totalPages - 1}
+          onClick={() => dispatch({ type: am.actions.setPage, page: am.currentPage + 1 } as never)}
+          disabled={am.currentPage >= totalPages - 1}
           className="p-2 rounded-lg hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <ChevronRight size={18} />

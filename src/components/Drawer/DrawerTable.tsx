@@ -6,7 +6,7 @@ interface Column {
 interface Props {
   columns: Column[];
   rows: Record<string, string | number>[];
-  highlightRow?: (row: Record<string, string | number>) => "selected" | "rejected" | null;
+  highlightRow?: (row: Record<string, string | number>) => string | null | undefined;
 }
 
 export default function DrawerTable({ columns, rows, highlightRow }: Props) {
@@ -32,10 +32,8 @@ export default function DrawerTable({ columns, rows, highlightRow }: Props) {
               <tr
                 key={i}
                 className={`border-b border-table-border/60 last:border-b-0 transition-colors ${
-                  hl === "selected"
-                    ? "bg-emerald-50"
-                    : hl === "rejected"
-                    ? "bg-gray-50 text-text-secondary"
+                  hl
+                    ? hl
                     : i % 2 === 1
                     ? "bg-gray-50/30"
                     : "bg-white"

@@ -1,4 +1,5 @@
 export type RowStatus = "pending" | "approved" | "rejected";
+export type { ActiveModule, ApprovalStatus, ProcurementRow, ProcurementUseCaseData, ProcurementInputSection, ProcurementConfigRule, ProcurementEvaluatedOption, ProcurementPOResult, SoBComplianceEntry, PostProcurementEntry } from "./procurement";
 
 export interface PlanRow {
   stoId: string;

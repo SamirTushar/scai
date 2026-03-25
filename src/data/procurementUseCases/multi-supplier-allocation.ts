@@ -1,0 +1,150 @@
+import { ProcurementUseCaseData } from "../../types/procurement";
+
+export const multiSupplierAllocation: ProcurementUseCaseData = {
+  id: "multi-supplier",
+  title: "Procurement Insights — Multi-Supplier Allocation",
+  subtitle: "Constrained capacity allocation across 3 qualified suppliers for BRK-4712",
+  skuCode: "BRK-4712",
+  supplierId: "Brembo",
+  destinationDC: "Berlin DC",
+  inputs: {
+    sections: [
+      {
+        title: "Network Requirement by DC",
+        columns: [
+          { key: "dc", label: "DC" },
+          { key: "requiredQty", label: "Required Qty" },
+          { key: "currentGIH", label: "Current GIH" },
+          { key: "safetyStock", label: "Safety Stock" },
+          { key: "gap", label: "Gap" },
+          { key: "requiredBy", label: "Required By" },
+        ],
+        rows: [
+          { dc: "Berlin", requiredQty: 1600, currentGIH: 520, safetyStock: 200, gap: 1080, requiredBy: "10-Apr" },
+          { dc: "Szczecin", requiredQty: 1200, currentGIH: 400, safetyStock: 150, gap: 800, requiredBy: "10-Apr" },
+          { dc: "Ghent", requiredQty: 900, currentGIH: 310, safetyStock: 200, gap: 590, requiredBy: "12-Apr" },
+          { dc: "Cheb", requiredQty: 500, currentGIH: 265, safetyStock: 100, gap: 235, requiredBy: "12-Apr" },
+          { dc: "Total", requiredQty: 4200, currentGIH: 1495, safetyStock: 650, gap: 2705, requiredBy: "—" },
+        ],
+      },
+      {
+        title: "Qualified Suppliers",
+        columns: [
+          { key: "supplier", label: "Supplier" },
+          { key: "location", label: "Location" },
+          { key: "unitCost", label: "Unit Cost" },
+          { key: "leadTime", label: "Lead Time" },
+          { key: "moq", label: "MOQ" },
+          { key: "capacity", label: "Capacity (this cycle)" },
+          { key: "quality", label: "Quality" },
+          { key: "sobTarget", label: "SoB Target" },
+        ],
+        rows: [
+          { supplier: "Brembo", location: "Bergamo, Italy", unitCost: "€8.20", leadTime: "5 days", moq: 500, capacity: "2,000 (constrained)", quality: "A+", sobTarget: "60%" },
+          { supplier: "TRW", location: "Koblenz, Germany", unitCost: "€7.40", leadTime: "3 days", moq: 300, capacity: "1,500", quality: "A", sobTarget: "25%" },
+          { supplier: "Ferodo", location: "Wrocław, Poland", unitCost: "€6.10", leadTime: "4 days", moq: 200, capacity: "1,000", quality: "B+", sobTarget: "15%" },
+        ],
+      },
+      {
+        title: "Supplier → DC Freight Matrix",
+        columns: [
+          { key: "route", label: "Route" },
+          { key: "transit", label: "Transit" },
+          { key: "freightPerUnit", label: "Freight/Unit" },
+        ],
+        rows: [
+          { route: "Brembo → Berlin", transit: "3 days", freightPerUnit: "€0.85" },
+          { route: "Brembo → Ghent", transit: "2 days", freightPerUnit: "€0.72" },
+          { route: "Brembo → Szczecin", transit: "4 days", freightPerUnit: "€1.10" },
+          { route: "Brembo → Cheb", transit: "2 days", freightPerUnit: "€0.68" },
+          { route: "TRW → Berlin", transit: "1 day", freightPerUnit: "€0.35" },
+          { route: "TRW → Szczecin", transit: "2 days", freightPerUnit: "€0.55" },
+          { route: "TRW → Ghent", transit: "2 days", freightPerUnit: "€0.48" },
+          { route: "TRW → Cheb", transit: "1 day", freightPerUnit: "€0.40" },
+          { route: "Ferodo → Szczecin", transit: "1 day", freightPerUnit: "€0.25" },
+          { route: "Ferodo → Berlin", transit: "2 days", freightPerUnit: "€0.42" },
+          { route: "Ferodo → Cheb", transit: "2 days", freightPerUnit: "€0.50" },
+          { route: "Ferodo → Ghent", transit: "3 days", freightPerUnit: "€0.78" },
+        ],
+      },
+    ],
+  },
+  configuration: [
+    { rule: "Objective", setting: "Minimize total procurement cost (unit + freight) while meeting all DC gaps" },
+    { rule: "Share-of-Business", setting: "Maintain within ±5% of contractual target per supplier" },
+    { rule: "Hard Constraint", setting: "Every DC gap fully covered — no partial fulfillment" },
+    { rule: "Hard Constraint (MOQ)", setting: "All orders meet supplier MOQ" },
+    { rule: "Hard Constraint (Capacity)", setting: "No order exceeds supplier cycle capacity" },
+    { rule: "Soft Constraint", setting: "Prefer shorter lead time when cost delta < 5%" },
+    { rule: "Capacity Override", setting: "If preferred supplier constrained, redistribute within tolerance band" },
+  ],
+  optimizer: {
+    trigger: "Brembo capacity this cycle: 2,000 (normally 3,000). System optimizes allocation across 3 suppliers.",
+    options: [
+      {
+        id: "A",
+        allocation: "Brembo 1,625 / TRW 676 / Ferodo 404",
+        totalCost: "€22,469",
+        sobCompliance: "All within ±5% band",
+        status: "selected",
+      },
+      {
+        id: "B",
+        allocation: "Brembo 2,000 / TRW 405 / Ferodo 300",
+        totalCost: "€23,412",
+        sobCompliance: "Brembo 74% — exceeds 65% cap",
+        status: "rejected",
+        reason: "SoB violation — Brembo exceeds contractual cap",
+      },
+      {
+        id: "C",
+        allocation: "TRW 1,200 / Ferodo 1,000 / Brembo 505",
+        totalCost: "€19,230",
+        sobCompliance: "Brembo 18.7% — below 55% floor",
+        status: "rejected",
+        reason: "SoB violation — cheapest but non-compliant",
+      },
+      {
+        id: "D",
+        allocation: "Brembo 1,623 / TRW 876 / Ferodo 206",
+        totalCost: "€23,105",
+        sobCompliance: "TRW 32.4% — exceeds 30% cap",
+        status: "rejected",
+        reason: "SoB violation — TRW exceeds contractual cap",
+      },
+    ],
+    whySelected: [
+      "All suppliers within contractual share-of-business tolerance",
+      "Routes optimized: each supplier ships to geographically closest DCs",
+      "Brembo within 2,000 capacity ceiling",
+      "All MOQs met (Brembo min 500 ✓, TRW min 300 ✓, Ferodo min 200 ✓)",
+    ],
+    whyNotRejected: [
+      {
+        option: "Option C (cheapest)",
+        reason: "Saves €3,239 but drops Brembo to 18.7% — below the 55% contractual floor. Would trigger penalty clause and risk preferred supplier status.",
+      },
+    ],
+  },
+  result: {
+    purchaseOrders: [
+      { poId: "PO-...-01", supplier: "Brembo", destDC: "Berlin", qty: 800, landedCost: "€9.05", total: "€7,240", delivery: "31-Mar" },
+      { poId: "PO-...-02", supplier: "Brembo", destDC: "Ghent", qty: 590, landedCost: "€8.92", total: "€5,263", delivery: "28-Mar" },
+      { poId: "PO-...-03", supplier: "Brembo", destDC: "Cheb", qty: 235, landedCost: "€8.88", total: "€2,087", delivery: "28-Mar" },
+      { poId: "PO-...-04", supplier: "TRW", destDC: "Berlin", qty: 280, landedCost: "€7.75", total: "€2,170", delivery: "27-Mar" },
+      { poId: "PO-...-05", supplier: "TRW", destDC: "Szczecin", qty: 396, landedCost: "€7.95", total: "€3,144", delivery: "28-Mar" },
+      { poId: "PO-...-06", supplier: "Ferodo", destDC: "Szczecin", qty: 404, landedCost: "€6.35", total: "€2,565", delivery: "27-Mar" },
+    ],
+    sobCompliance: [
+      { supplier: "Brembo", qty: 1625, actualPercent: "60.1%", targetPercent: "60%", band: "55-65%", status: "✅ On Target" },
+      { supplier: "TRW", qty: 676, actualPercent: "25.0%", targetPercent: "25%", band: "20-30%", status: "✅ On Target" },
+      { supplier: "Ferodo", qty: 404, actualPercent: "14.9%", targetPercent: "15%", band: "10-20%", status: "✅ On Target" },
+    ],
+    postProcurementState: [
+      { dc: "Berlin", currentGIH: "520", incoming: "1,080", projected: "1,600", vsSS: "✅ +1,400" },
+      { dc: "Szczecin", currentGIH: "400", incoming: "800", projected: "1,200", vsSS: "✅ +1,050" },
+      { dc: "Ghent", currentGIH: "310", incoming: "590", projected: "900", vsSS: "✅ +700" },
+      { dc: "Cheb", currentGIH: "265", incoming: "235", projected: "500", vsSS: "✅ +400" },
+    ],
+  },
+};

@@ -1,5 +1,6 @@
 import { LayoutGrid, Table, Filter, Bell, ChevronRight } from "lucide-react";
 import { useAppContext } from "../context/AppContext";
+import { useActiveModule } from "../hooks/useActiveModule";
 
 const navItems = [
   "Integrated Business Planning",
@@ -10,6 +11,7 @@ const navItems = [
 
 export default function TopBar() {
   const { state, dispatch } = useAppContext();
+  const { config } = useActiveModule();
 
   return (
     <header className="bg-white border-b border-card-border shrink-0">
@@ -42,14 +44,14 @@ export default function TopBar() {
       {/* Breadcrumb bar */}
       <div className="flex items-center justify-between px-8 h-11 border-t border-gray-100">
         <div className="flex items-center gap-2 text-[14px]">
-          <span className="text-text-secondary font-medium">DEC 2025</span>
+          <span className="text-text-secondary font-medium">{config.breadcrumb.period}</span>
           <ChevronRight size={16} className="text-text-secondary" />
-          <span className="text-accent font-semibold">Planning Dashboard</span>
+          <span className="text-accent font-semibold">{config.breadcrumb.title}</span>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 text-[14px]">
             <span className="text-text-secondary">Status :</span>
-            <span className="text-accent font-semibold">Planned & Executed</span>
+            <span className="text-accent font-semibold">{config.statusLabel}</span>
           </div>
           <div className="flex items-center border border-card-border rounded-lg overflow-hidden">
             <button

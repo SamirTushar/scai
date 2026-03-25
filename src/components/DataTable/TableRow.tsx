@@ -1,10 +1,16 @@
 import { Info } from "lucide-react";
-import { useAppContext } from "../../context/AppContext";
-import { PlanRow } from "../../types";
+import { ColumnDef } from "../../config/modules";
 
 interface Props {
-  row: PlanRow;
+  row: Record<string, unknown>;
   index: number;
+  columns: ColumnDef[];
+  idField: string;
+  statusField: string;
+  isSelected: boolean;
+  hasUseCase: boolean;
+  onToggle: () => void;
+  onOpenDrawer: () => void;
 }
 
 const statusBorderColor: Record<string, string> = {
@@ -13,58 +19,79 @@ const statusBorderColor: Record<string, string> = {
   rejected: "#EF4444",
 };
 
-export default function TableRow({ row, index }: Props) {
-  const { state, dispatch } = useAppContext();
-  const isSelected = state.selectedRowIds.has(row.stoId);
+function formatCell(value: unknown, format?: string): string {
+  if (value == null) return "—";
+  switch (format) {
+    case "currency":
+      return `€${Number(value).toFixed(2)}`;
+    case "number":
+      return Number(value).toLocaleString();
+    case "boolean":
+      return value ? "Yes" : "No";
+    case "percent":
+      return String(value);
+    case "date":
+      return String(value);
+    default:
+      return String(value);
+  }
+}
+
+export default function TableRow({
+  row,
+  index,
+  columns,
+  statusField,
+  isSelected,
+  hasUseCase,
+  onToggle,
+  onOpenDrawer,
+}: Props) {
+  const status = String(row[statusField] || "pending");
 
   return (
     <tr
       className={`border-b border-table-border hover:bg-table-hover transition-colors ${
         index % 2 === 1 ? "bg-gray-50/40" : ""
-      } ${isSelected ? "bg-blue-50/40" : ""}`}
-      style={{ borderLeft: `4px solid ${statusBorderColor[row.status]}` }}
+      } ${isSelected ? "bg-blue-50/40" : ""} ${status === "rejected" ? "bg-red-50/30" : ""}`}
+      style={{ borderLeft: `4px solid ${statusBorderColor[status] || "#F59E0B"}` }}
     >
       <td className="px-4 py-3">
         <input
           type="checkbox"
           checked={isSelected}
-          onChange={() => dispatch({ type: "TOGGLE_ROW", id: row.stoId })}
+          onChange={onToggle}
           className="w-4 h-4 rounded border-gray-300 accent-accent cursor-pointer"
         />
       </td>
       <td className="px-3 py-3">
         <button
-          onClick={() => dispatch({ type: "OPEN_DRAWER", rowId: row.stoId })}
+          onClick={onOpenDrawer}
           className={`p-1.5 rounded-lg hover:bg-gray-100 transition-colors ${
-            row.useCaseId ? "text-accent" : "text-text-secondary"
+            hasUseCase ? "text-accent" : "text-text-secondary"
           }`}
-          title={row.useCaseId ? "View detailed insights" : "Standard replenishment"}
+          title={hasUseCase ? "View detailed insights" : "Standard — no special conditions"}
         >
           <Info size={18} />
         </button>
       </td>
-      <td className="px-4 py-3 font-mono text-[13px] whitespace-nowrap">
-        {row.stoId}
-      </td>
-      <td className="px-4 py-3 whitespace-nowrap">{row.productName}</td>
-      <td className="px-4 py-3 font-mono text-[13px]">{row.skuCode}</td>
-      <td className="px-4 py-3 whitespace-nowrap">{row.startNode}</td>
-      <td className="px-4 py-3 whitespace-nowrap">{row.locationEnd}</td>
-      <td className="px-4 py-3">{row.manuallyCreated ? "Yes" : "No"}</td>
-      <td className="px-4 py-3 text-right tabular-nums">
-        {row.demandForecast != null ? row.demandForecast.toLocaleString() : "—"}
-      </td>
-      <td className="px-4 py-3 text-right tabular-nums">
-        {row.projectedSales.toLocaleString()}
-      </td>
-      <td className="px-4 py-3 text-right tabular-nums">
-        {row.plannedReplenishmentQty.toLocaleString()}
-      </td>
-      <td className="px-4 py-3 text-right tabular-nums">
-        €{row.variableCost.toFixed(2)}
-      </td>
-      <td className="px-4 py-3 whitespace-nowrap">{row.leadTime}</td>
-      <td className="px-4 py-3">{row.division}</td>
+      {columns.map((col, colIdx) => {
+        const value = row[col.key];
+        const formatted = formatCell(value, col.format);
+        const isFirstCol = colIdx === 0;
+        return (
+          <td
+            key={col.key}
+            className={`px-4 py-3 whitespace-nowrap ${
+              col.align === "right" ? "text-right tabular-nums" : ""
+            } ${isFirstCol ? "font-mono text-[13px]" : ""} ${
+              status === "rejected" && col.key.includes("qty") ? "line-through text-red-400" : ""
+            }`}
+          >
+            {formatted}
+          </td>
+        );
+      })}
     </tr>
   );
 }

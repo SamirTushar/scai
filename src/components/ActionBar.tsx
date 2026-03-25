@@ -1,19 +1,33 @@
 import {
-  Info,
-  Check,
-  X,
-  Pencil,
-  Plus,
-  RefreshCw,
-  Save,
-  Download,
-  Columns3,
+  Info, Check, X, Pencil, Plus, RefreshCw, Save, Download, Columns3,
 } from "lucide-react";
 import { useAppContext } from "../context/AppContext";
+import { useActiveModule } from "../hooks/useActiveModule";
 
 export default function ActionBar() {
-  const { state, dispatch } = useAppContext();
-  const hasSelection = state.selectedRowIds.size > 0;
+  const { dispatch } = useAppContext();
+  const am = useActiveModule();
+  const hasSelection = am.selectedRowIds.size > 0;
+
+  const handleApprove = () => {
+    if (hasSelection) {
+      dispatch({
+        type: am.actions.updateRowStatus,
+        ids: Array.from(am.selectedRowIds),
+        status: "approved",
+      } as never);
+    }
+  };
+
+  const handleReject = () => {
+    if (hasSelection) {
+      dispatch({
+        type: am.actions.updateRowStatus,
+        ids: Array.from(am.selectedRowIds),
+        status: "rejected",
+      } as never);
+    }
+  };
 
   return (
     <div className="flex items-center justify-between px-8 py-3">
@@ -28,15 +42,7 @@ export default function ActionBar() {
           <Info size={18} />
         </button>
         <button
-          onClick={() => {
-            if (hasSelection) {
-              dispatch({
-                type: "UPDATE_ROW_STATUS",
-                ids: Array.from(state.selectedRowIds),
-                status: "approved",
-              });
-            }
-          }}
+          onClick={handleApprove}
           className={`flex items-center gap-2 px-4 py-2 text-[13px] font-medium border rounded-lg transition-colors ${
             hasSelection
               ? "border-status-approved text-status-approved hover:bg-badge-green-bg"
@@ -47,15 +53,7 @@ export default function ActionBar() {
           Approve
         </button>
         <button
-          onClick={() => {
-            if (hasSelection) {
-              dispatch({
-                type: "UPDATE_ROW_STATUS",
-                ids: Array.from(state.selectedRowIds),
-                status: "rejected",
-              });
-            }
-          }}
+          onClick={handleReject}
           className={`flex items-center gap-2 px-4 py-2 text-[13px] font-medium border rounded-lg transition-colors ${
             hasSelection
               ? "border-status-rejected text-status-rejected hover:bg-badge-red-bg"
