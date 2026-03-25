@@ -10,10 +10,11 @@ import TabResult from "./TabResult";
 import RMTabInputs from "./RMTabInputs";
 import RMTabConfiguration from "./RMTabConfiguration";
 import RMTabOptimizer from "./RMTabOptimizer";
-import RMTabResult from "./RMTabResult";
+// RMTabResult removed — Result tab not shown for RM module
 import PlannerActions from "./PlannerActions";
 
-const tabs = ["Inputs", "Configuration", "Optimizer Output", "Result"];
+const repTabs = ["Inputs", "Configuration", "Optimizer Output", "Result"];
+const rmTabs = ["Inputs", "Configuration", "Optimizer Output"];
 
 export default function ExplainDrawer() {
   const { state, dispatch } = useAppContext();
@@ -75,7 +76,6 @@ export default function ExplainDrawer() {
         case 0: return <RMTabInputs data={rmData} />;
         case 1: return <RMTabConfiguration data={rmData} />;
         case 2: return <RMTabOptimizer data={rmData} />;
-        case 3: return <RMTabResult data={rmData} />;
         default: return null;
       }
     }
@@ -148,7 +148,7 @@ export default function ExplainDrawer() {
                 {/* Tabs */}
                 <div className="px-8 border-b border-card-border">
                   <div className="flex gap-8">
-                    {tabs.map((tab, i) => (
+                    {(isRM ? rmTabs : repTabs).map((tab, i) => (
                       <button
                         key={tab}
                         onClick={() => setTab(i)}

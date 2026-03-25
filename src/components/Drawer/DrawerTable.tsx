@@ -11,14 +11,14 @@ interface Props {
 
 export default function DrawerTable({ columns, rows, highlightRow }: Props) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-card-border shadow-sm">
-      <table className="w-full text-[13px]">
+    <div className="overflow-x-auto rounded-lg border border-card-border shadow-sm mb-2">
+      <table className="w-full text-[12px]">
         <thead>
           <tr className="bg-accent-subtle">
             {columns.map((col) => (
               <th
                 key={col.key}
-                className="px-4 py-3.5 text-left text-[11px] font-bold text-text-primary/60 uppercase tracking-wider whitespace-nowrap border-b border-accent-medium/30"
+                className="px-4 py-3 text-left text-[10px] font-bold text-text-primary/60 uppercase tracking-wider whitespace-nowrap border-b border-accent-medium/30"
               >
                 {col.label}
               </th>

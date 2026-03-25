@@ -7,13 +7,13 @@ interface Props {
 
 export default function RMTabInputs({ data }: Props) {
   return (
-    <div className="space-y-10">
-      <h3 className="text-[15px] font-semibold text-text-primary">
+    <div className="space-y-8">
+      <h3 className="text-[14px] font-semibold text-text-primary mb-6">
         What the System Saw
       </h3>
       {data.inputs.sections.map((section) => (
-        <div key={section.title}>
-          <h4 className="text-[13px] font-semibold text-text-secondary mb-3 uppercase tracking-wider">
+        <div key={section.title} className="mb-4">
+          <h4 className="text-[12px] font-semibold text-text-secondary mb-4 uppercase tracking-wider">
             {section.title}
           </h4>
           <DrawerTable

@@ -58,23 +58,23 @@ export default function TableRow({
       } ${isSelected ? "bg-blue-50/40" : ""} ${status === "rejected" ? "bg-red-50/30" : ""}`}
       style={{ borderLeft: `4px solid ${statusBorderColor[status] || "#F59E0B"}` }}
     >
-      <td className="px-4 py-3.5">
+      <td className="px-3 py-4 text-center align-middle">
         <input
           type="checkbox"
           checked={isSelected}
           onChange={onToggle}
-          className="w-4 h-4 rounded border-gray-300 accent-accent cursor-pointer"
+          className="w-3.5 h-3.5 rounded border-gray-300 accent-accent cursor-pointer"
         />
       </td>
-      <td className="px-3 py-3">
+      <td className="px-2 py-4 text-center align-middle">
         <button
           onClick={onOpenDrawer}
-          className={`p-1.5 rounded-lg hover:bg-gray-100 transition-colors ${
+          className={`p-1 rounded-lg hover:bg-gray-100 transition-colors ${
             hasUseCase ? "text-accent" : "text-text-secondary"
           }`}
           title={hasUseCase ? (useCaseLabel || "View detailed insights") : "Standard replenishment — no node balancing"}
         >
-          <Info size={18} />
+          <Info size={16} />
         </button>
       </td>
       {columns.map((col, colIdx) => {
@@ -84,9 +84,9 @@ export default function TableRow({
         return (
           <td
             key={col.key}
-            className={`px-4 py-3.5 whitespace-nowrap ${
+            className={`px-3 py-4 whitespace-nowrap text-[13px] align-middle ${
               col.align === "right" ? "text-right tabular-nums" : ""
-            } ${isFirstCol ? "font-mono text-[13px]" : ""} ${
+            } ${isFirstCol ? "font-mono text-[12px]" : ""} ${
               status === "rejected" && col.key.includes("qty") ? "line-through text-red-400" : ""
             }`}
           >
