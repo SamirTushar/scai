@@ -13,7 +13,7 @@ export default function Sidebar() {
   const { state, dispatch } = useAppContext();
 
   return (
-    <aside className="w-[52px] bg-white border-r border-card-border flex flex-col items-center shrink-0">
+    <aside className="w-[52px] bg-white border-r-2 border-gray-200 flex flex-col items-center shrink-0 mr-3">
       {/* 3SC Logo — sits in the top nav band (h-12 = 48px) */}
       <div className="h-12 flex items-center justify-center w-full border-b border-card-border">
         <svg width="22" height="22" viewBox="-2 0 100 85" xmlns="http://www.w3.org/2000/svg">
