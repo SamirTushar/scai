@@ -79,6 +79,7 @@ export interface PostPlanEntry {
   newAvailable: string;
   vsSS: string;
   impact: string;
+  [key: string]: string | number;
 }
 
 export interface UseCaseData {

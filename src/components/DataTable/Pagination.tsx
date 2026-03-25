@@ -8,7 +8,7 @@ interface Props {
   pageSize: number;
 }
 
-export default function Pagination({ totalRows, totalPages, start, pageSize }: Props) {
+export default function Pagination({ totalPages }: Props) {
   const { state, dispatch } = useAppContext();
 
   const pageNumbers = () => {
